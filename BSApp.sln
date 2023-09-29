@@ -5,6 +5,12 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSApp.Api", "BSApp.Api\BSApp.Api.csproj", "{21960B19-3675-4716-A25A-6CFA0666FC68}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSApp.Entities", "BSApp.Entities\BSApp.Entities.csproj", "{993C953D-9184-4A4F-AC15-A8D314B1AFEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSApp.Repository", "BSApp.Repository\BSApp.Repository.csproj", "{F751A64B-E93E-4897-91FC-2585061D67AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSApp.Service", "BSApp.Service\BSApp.Service.csproj", "{DB1BCC47-C680-4647-BC70-3EBA95E743F6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +24,17 @@ Global
 		{21960B19-3675-4716-A25A-6CFA0666FC68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21960B19-3675-4716-A25A-6CFA0666FC68}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21960B19-3675-4716-A25A-6CFA0666FC68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{993C953D-9184-4A4F-AC15-A8D314B1AFEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{993C953D-9184-4A4F-AC15-A8D314B1AFEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{993C953D-9184-4A4F-AC15-A8D314B1AFEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{993C953D-9184-4A4F-AC15-A8D314B1AFEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F751A64B-E93E-4897-91FC-2585061D67AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F751A64B-E93E-4897-91FC-2585061D67AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F751A64B-E93E-4897-91FC-2585061D67AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F751A64B-E93E-4897-91FC-2585061D67AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB1BCC47-C680-4647-BC70-3EBA95E743F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB1BCC47-C680-4647-BC70-3EBA95E743F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB1BCC47-C680-4647-BC70-3EBA95E743F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB1BCC47-C680-4647-BC70-3EBA95E743F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
