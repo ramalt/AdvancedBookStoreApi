@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSApp.Repository", "BSApp.R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSApp.Service", "BSApp.Service\BSApp.Service.csproj", "{DB1BCC47-C680-4647-BC70-3EBA95E743F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSApp.Presentation", "BSApp.Presentation\BSApp.Presentation.csproj", "{5E57B26C-1345-46D6-B8F1-B318541DB54B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,13 @@ Global
 		{DB1BCC47-C680-4647-BC70-3EBA95E743F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB1BCC47-C680-4647-BC70-3EBA95E743F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB1BCC47-C680-4647-BC70-3EBA95E743F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{236481A8-0E1D-4B20-9FDB-2A1295F50F2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{236481A8-0E1D-4B20-9FDB-2A1295F50F2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{236481A8-0E1D-4B20-9FDB-2A1295F50F2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{236481A8-0E1D-4B20-9FDB-2A1295F50F2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E57B26C-1345-46D6-B8F1-B318541DB54B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E57B26C-1345-46D6-B8F1-B318541DB54B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E57B26C-1345-46D6-B8F1-B318541DB54B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E57B26C-1345-46D6-B8F1-B318541DB54B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

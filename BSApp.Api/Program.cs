@@ -2,7 +2,9 @@ using BSApp.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers().AddNewtonsoftJson();
+builder.Services.AddControllers()
+                .AddApplicationPart(typeof(BSApp.Presentation.AssemblyReference).Assembly)
+                .AddNewtonsoftJson();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

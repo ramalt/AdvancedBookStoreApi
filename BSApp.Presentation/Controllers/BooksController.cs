@@ -1,18 +1,17 @@
-using Azure;
 using BSApp.Entities.Models;
 using BSApp.Service.Contracts;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.JsonPatch;
 
-namespace BSApp.Api.Controllers;
+namespace BSApp.Presentation.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class BookController : ControllerBase
+public class BooksController : ControllerBase
 {
     private readonly IServiceManager _manager;
 
-    public BookController(IServiceManager manager)
+    public BooksController(IServiceManager manager)
     {
         _manager = manager;
     }
@@ -119,4 +118,6 @@ public class BookController : ControllerBase
             throw new Exception(e.Message);
         }
     }
+
+
 }

@@ -26,6 +26,7 @@
     <ProjectReference Include="..\BSApp.Entities\BSApp.Entities.csproj" />
     <ProjectReference Include="..\BSApp.Repository\BSApp.Repository.csproj" />
     <ProjectReference Include="..\BSApp.Service\BSApp.Service.csproj" />
+    <ProjectReference Include="..\BSApp.Presentation\BSApp.Presentation.csproj" />
   </ItemGroup>
 
 </Project>
