@@ -81,7 +81,7 @@ public class BooksController : ControllerBase
             throw new BookNotFoundException(id);
 
         book.ApplyTo(existingBook);
-        _manager.BookService.UpdateBook(id, new UpdateBookDto(id, existingBook.Title, existingBook.Price), true);
+        _manager.BookService.UpdateBook(id, new UpdateBookDto(existingBook.Title, existingBook.Price), true);
 
         return NoContent();
 

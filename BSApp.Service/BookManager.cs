@@ -1,5 +1,6 @@
 using AutoMapper;
 using BSApp.Entities.Dtos;
+using BSApp.Entities.Exceptions;
 using BSApp.Entities.Models;
 using BSApp.Repository.Data;
 using BSApp.Service.Contracts;
@@ -49,14 +50,14 @@ public class BookManager : IBookService
     public IEnumerable<BookDto> GetAllBooks(bool trackChanges)
     {
 
-        var books =  _manager.Book.GetAllBooks(trackChanges);
+        var books = _manager.Book.GetAllBooks(trackChanges);
 
         return _mapper.Map<IEnumerable<BookDto>>(books);
     }
 
     public BookDto GetBookById(int id, bool trackChanges)
     {
-        var book =  _manager.Book.GetOneBookById(id, trackChanges);
+        var book = _manager.Book.GetOneBookById(id, trackChanges);
         var mapped = _mapper.Map<BookDto>(book);
         return mapped;
     }
@@ -69,7 +70,7 @@ public class BookManager : IBookService
         {
             var msg = $"Book not found with id : {id}";
             _logger.LogInfo(msg);
-            throw new Exception(msg);
+            throw new BookNotFoundException(id);
         }
 
         existingBook = _mapper.Map<Book>(bookDto);
