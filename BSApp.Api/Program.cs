@@ -9,6 +9,7 @@ builder.Services.AddControllers(options =>
                     options.RespectBrowserAcceptHeader = true;
                     options.ReturnHttpNotAcceptable = true;
                 })
+                .AddXmlDataContractSerializerFormatters()
                 .AddApplicationPart(typeof(BSApp.Presentation.AssemblyReference).Assembly)
                 .AddNewtonsoftJson();
 
