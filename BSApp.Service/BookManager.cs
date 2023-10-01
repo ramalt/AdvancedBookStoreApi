@@ -7,18 +7,17 @@ namespace BSApp.Service;
 public class BookManager : IBookService
 {
     private readonly IRepositoryManager _manager;
+    private readonly ILoggerService _logger;
 
-    public BookManager(IRepositoryManager manager)
+    public BookManager(IRepositoryManager manager, ILoggerService logger)
     {
         _manager = manager;
+        _logger = logger;
     }
 
     public Book CreateBook(Book book)
     {
-        if (book is null)
-        {
-            throw new ArgumentNullException(nameof(book));
-        }
+
         _manager.Book.CreateOneBook(book);
         _manager.Save();
 
@@ -29,7 +28,12 @@ public class BookManager : IBookService
     {
         var book = _manager.Book.GetOneBookById(id, trackChanges);
         if (book is null)
-            throw new Exception($"Book not found with id : {id}");
+        {
+            var msg = $"Book not found with id : {id}";
+            _logger.LogInfo(msg);
+            throw new Exception(msg);
+        }
+
 
         _manager.Book.Delete(book);
         _manager.Save();
@@ -51,10 +55,11 @@ public class BookManager : IBookService
         var existingBook = _manager.Book.GetOneBookById(id, trackChanges);
 
         if (existingBook is null)
-            throw new Exception($"Book not found with id: {id}");
-
-        if (book is null)
-            throw new ArgumentNullException(nameof(book));
+        {
+            var msg = $"Book not found with id : {id}";
+            _logger.LogInfo(msg);
+            throw new Exception(msg);
+        }
 
         existingBook.Title = book.Title;
         existingBook.Price = book.Price;
