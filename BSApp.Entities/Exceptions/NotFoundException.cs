@@ -1,5 +1,5 @@
 
-namespace BSApp.Api.Exceptions;
+namespace BSApp.Entities.Exceptions;
 
 public abstract class NotFoundException : Exception
 {   

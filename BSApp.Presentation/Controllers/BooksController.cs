@@ -2,6 +2,7 @@ using BSApp.Entities.Models;
 using BSApp.Service.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.JsonPatch;
+using BSApp.Entities.Exceptions;
 
 namespace BSApp.Presentation.Controllers;
 
@@ -23,7 +24,8 @@ public class BooksController : ControllerBase
         var book = _manager.BookService.GetBookById(id, false);
 
         if (book is null)
-            return NotFound($"book not found with id: {id}");
+            throw new BookNotFoundException(id);
+
         return Ok(book);
 
     }

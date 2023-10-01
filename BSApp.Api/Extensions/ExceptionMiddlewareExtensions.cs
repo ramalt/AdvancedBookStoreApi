@@ -1,6 +1,6 @@
 using System.Net;
-using BSApp.Api.Exceptions;
 using BSApp.Entities.ErrorModels;
+using BSApp.Entities.Exceptions;
 using BSApp.Service.Contracts;
 using Microsoft.AspNetCore.Diagnostics;
 
