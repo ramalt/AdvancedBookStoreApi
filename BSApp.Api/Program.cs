@@ -4,7 +4,11 @@ using NLog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers()
+builder.Services.AddControllers(options =>
+                {
+                    options.RespectBrowserAcceptHeader = true;
+                    options.ReturnHttpNotAcceptable = true;
+                })
                 .AddApplicationPart(typeof(BSApp.Presentation.AssemblyReference).Assembly)
                 .AddNewtonsoftJson();
 
