@@ -19,104 +19,69 @@ public class BooksController : ControllerBase
     [HttpGet("{id:int}")]
     public IActionResult GetOneBook([FromRoute(Name = "id")] int id)
     {
-        try
-        {
-            var book = _manager.BookService.GetBookById(id, false);
 
-            if (book is null)
-                return NotFound($"book not found with id: {id}");
-            return Ok(book);
-        }
-        catch (Exception e)
-        {
-            throw new Exception(e.Message);
-        }
+        var book = _manager.BookService.GetBookById(id, false);
+
+        if (book is null)
+            return NotFound($"book not found with id: {id}");
+        return Ok(book);
 
     }
 
     [HttpGet]
     public IActionResult GetAllBooks()
     {
-        try
-        {
-            var books = _manager.BookService.GetAllBooks(false);
-            return Ok(books);
-        }
-        catch (Exception e)
-        {
-            throw new Exception(e.Message);
-        }
+        var books = _manager.BookService.GetAllBooks(false);
+        return Ok(books);
 
     }
 
     [HttpPut("{id:int}")]
     public IActionResult UpdateBook([FromRoute(Name = "id")] int id, [FromBody] Book book)
     {
-        try
-        {
-            if (book is null)
-                return BadRequest();
 
-            _manager.BookService.UpdateBook(id, book, true);
+        if (book is null)
+            return BadRequest();
 
-            return NoContent();
-        }
-        catch (System.Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+        _manager.BookService.UpdateBook(id, book, true);
+
+        return NoContent();
     }
 
     [HttpPost]
     public IActionResult CreateBook([FromBody] Book book)
     {
-        try
-        {
-            if (book is null)
-                return BadRequest();
 
-            _manager.BookService.CreateBook(book);
+        if (book is null)
+            return BadRequest();
 
-            return StatusCode(201, book);
-        }
-        catch (System.Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+        _manager.BookService.CreateBook(book);
+
+        return StatusCode(201, book);
+
     }
 
     [HttpDelete("{id:int}")]
     public IActionResult DeleteBook([FromRoute(Name = "id")] int id)
     {
-        try
-        {
-            _manager.BookService.DeleteBook(id, false);
-            return NoContent();
-        }
-        catch (System.Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+
+        _manager.BookService.DeleteBook(id, false);
+        return NoContent();
+
     }
 
     [HttpPatch("{id:int}")]
     public IActionResult PartiallyUpdateBook([FromRoute(Name = "id")] int id, [FromBody] JsonPatchDocument<Book> book)
     {
-        try
-        {
-            var existingBook = _manager.BookService.GetBookById(id, false);
-            if (existingBook is null)
-                return NotFound();
+        var existingBook = _manager.BookService.GetBookById(id, false);
+        if (existingBook is null)
+            return NotFound();
 
-            book.ApplyTo(existingBook);
-            _manager.BookService.UpdateBook(id, existingBook, true);
+        book.ApplyTo(existingBook);
+        _manager.BookService.UpdateBook(id, existingBook, true);
 
-            return NoContent();
-        }
-        catch (Exception e)
-        {
-            throw new Exception(e.Message);
-        }
+        return NoContent();
+
     }
 
 

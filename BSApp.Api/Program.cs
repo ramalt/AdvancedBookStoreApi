@@ -1,4 +1,5 @@
 using BSApp.Api.Extensions;
+using BSApp.Service.Contracts;
 using NLog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +24,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+if (app.Environment.IsProduction())
+{
+    app.UseHsts();
+}
+
+var loggerService = app.Services.GetRequiredService<ILoggerService>();
+
+app.ConfigureExceptionHandler(loggerService);
 
 app.UseAuthorization();
 

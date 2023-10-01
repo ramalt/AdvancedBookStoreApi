@@ -8,3 +8,17 @@
 2023-10-01 14:15:07.7000 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.4.2092. Product version: 5.2.4+5ed75b125a691ce9f01e64641f1a79f438385847. GlobalAssemblyCache: False
 2023-10-01 14:15:07.7226 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=/home/ram/tidalbulges/BSAppBTK/BSApp.Api/nlog.config
 2023-10-01 14:15:07.7426 Info Configuration initialized.
+2023-10-01 14:22:29.7904 Info AppDomain Shutting down. LogFactory closing...
+2023-10-01 14:22:29.7948 Info LogFactory has been closed.
+2023-10-01 14:40:40.9335 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-10-01 14:40:40.9843 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.4.2092. Product version: 5.2.4+5ed75b125a691ce9f01e64641f1a79f438385847. GlobalAssemblyCache: False
+2023-10-01 14:40:41.0060 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=/home/ram/tidalbulges/BSAppBTK/BSApp.Api/nlog.config
+2023-10-01 14:40:41.0263 Info Configuration initialized.
+2023-10-01 14:43:27.4071 Info AppDomain Shutting down. LogFactory closing...
+2023-10-01 14:43:27.4163 Info LogFactory has been closed.
+2023-10-01 14:43:33.9513 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-10-01 14:43:33.9882 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.4.2092. Product version: 5.2.4+5ed75b125a691ce9f01e64641f1a79f438385847. GlobalAssemblyCache: False
+2023-10-01 14:43:34.0080 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=/home/ram/tidalbulges/BSAppBTK/BSApp.Api/nlog.config
+2023-10-01 14:43:34.0255 Info Configuration initialized.
+2023-10-01 14:45:07.3644 Info AppDomain Shutting down. LogFactory closing...
+2023-10-01 14:45:07.3851 Info LogFactory has been closed.
