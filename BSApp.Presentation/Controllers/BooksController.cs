@@ -77,7 +77,7 @@ public class BooksController : ControllerBase
     {
         var existingBook = _manager.BookService.GetBookById(id, false);
         if (existingBook is null)
-            return NotFound();
+            throw new BookNotFoundException(id);
 
         book.ApplyTo(existingBook);
         _manager.BookService.UpdateBook(id, existingBook, true);
