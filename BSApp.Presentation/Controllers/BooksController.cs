@@ -3,6 +3,7 @@ using BSApp.Service.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.JsonPatch;
 using BSApp.Entities.Exceptions;
+using BSApp.Entities.Dtos;
 
 namespace BSApp.Presentation.Controllers;
 
@@ -39,13 +40,13 @@ public class BooksController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
-    public IActionResult UpdateBook([FromRoute(Name = "id")] int id, [FromBody] Book book)
+    public IActionResult UpdateBook([FromRoute(Name = "id")] int id, [FromBody] UpdateBookDto bookDto)
     {
 
-        if (book is null)
+        if (bookDto is null)
             return BadRequest();
 
-        _manager.BookService.UpdateBook(id, book, true);
+        _manager.BookService.UpdateBook(id, bookDto, true);
 
         return NoContent();
     }
@@ -73,14 +74,14 @@ public class BooksController : ControllerBase
     }
 
     [HttpPatch("{id:int}")]
-    public IActionResult PartiallyUpdateBook([FromRoute(Name = "id")] int id, [FromBody] JsonPatchDocument<Book> book)
+    public IActionResult PartiallyUpdateBook([FromRoute(Name = "id")] int id, [FromBody] JsonPatchDocument<BookDto> book)
     {
         var existingBook = _manager.BookService.GetBookById(id, false);
         if (existingBook is null)
             throw new BookNotFoundException(id);
 
         book.ApplyTo(existingBook);
-        _manager.BookService.UpdateBook(id, existingBook, true);
+        _manager.BookService.UpdateBook(id, new UpdateBookDto(id, existingBook.Title, existingBook.Price), true);
 
         return NoContent();
 

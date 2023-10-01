@@ -1,3 +1,5 @@
+using AutoMapper;
+using BSApp.Entities.Dtos;
 using BSApp.Entities.Models;
 using BSApp.Repository.Data;
 using BSApp.Service.Contracts;
@@ -8,20 +10,24 @@ public class BookManager : IBookService
 {
     private readonly IRepositoryManager _manager;
     private readonly ILoggerService _logger;
+    private readonly IMapper _mapper;
 
-    public BookManager(IRepositoryManager manager, ILoggerService logger)
+    public BookManager(IRepositoryManager manager, ILoggerService logger, IMapper mapper)
     {
         _manager = manager;
         _logger = logger;
+        _mapper = mapper;
     }
 
-    public Book CreateBook(Book book)
+    public BookDto CreateBook(Book book)
     {
 
         _manager.Book.CreateOneBook(book);
         _manager.Save();
 
-        return book;
+        var createdBook = _mapper.Map<BookDto>(book);
+
+        return createdBook;
     }
 
     public void DeleteBook(int id, bool trackChanges)
@@ -40,17 +46,22 @@ public class BookManager : IBookService
 
     }
 
-    public IEnumerable<Book> GetAllBooks(bool trackChanges)
+    public IEnumerable<BookDto> GetAllBooks(bool trackChanges)
     {
-        return _manager.Book.GetAllBooks(trackChanges);
+
+        var books =  _manager.Book.GetAllBooks(trackChanges);
+
+        return _mapper.Map<IEnumerable<BookDto>>(books);
     }
 
-    public Book GetBookById(int id, bool trackChanges)
+    public BookDto GetBookById(int id, bool trackChanges)
     {
-        return _manager.Book.GetOneBookById(id, trackChanges);
+        var book =  _manager.Book.GetOneBookById(id, trackChanges);
+        var mapped = _mapper.Map<BookDto>(book);
+        return mapped;
     }
 
-    public void UpdateBook(int id, Book book, bool trackChanges)
+    public void UpdateBook(int id, UpdateBookDto bookDto, bool trackChanges)
     {
         var existingBook = _manager.Book.GetOneBookById(id, trackChanges);
 
@@ -61,8 +72,7 @@ public class BookManager : IBookService
             throw new Exception(msg);
         }
 
-        existingBook.Title = book.Title;
-        existingBook.Price = book.Price;
+        existingBook = _mapper.Map<Book>(bookDto);
 
         _manager.Book.Update(existingBook);
         _manager.Save();
