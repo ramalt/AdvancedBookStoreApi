@@ -20,18 +20,18 @@ public class BookManager : IBookService
         _mapper = mapper;
     }
 
-    public BookDto CreateBook(CreateBookDto bookDto)
+    public async Task<BookDto> CreateBookAsync(CreateBookDto bookDto)
     {
         Book book = _mapper.Map<Book>(bookDto);
         _manager.Book.CreateOneBook(book);
-        _manager.Save();
+        await _manager.SaveAsync();
 
         return _mapper.Map<BookDto>(bookDto);
     }
 
-    public void DeleteBook(int id, bool trackChanges)
+    public async Task DeleteBookAsync(int id, bool trackChanges)
     {
-        var book = _manager.Book.GetOneBookById(id, trackChanges);
+        var book = await _manager.Book.GetOneBookByIdAsync(id, trackChanges);
         if (book is null)
         {
             var msg = $"Book not found with id : {id}";
@@ -41,28 +41,28 @@ public class BookManager : IBookService
 
 
         _manager.Book.Delete(book);
-        _manager.Save();
+        await _manager.SaveAsync();
 
     }
 
-    public IEnumerable<BookDto> GetAllBooks(bool trackChanges)
+    public async Task<IEnumerable<BookDto>> GetAllBooksAsync(bool trackChanges)
     {
 
-        var books = _manager.Book.GetAllBooks(trackChanges);
+        var books = await _manager.Book.GetAllBooksAsync(trackChanges);
 
         return _mapper.Map<IEnumerable<BookDto>>(books);
     }
 
-    public BookDto GetBookById(int id, bool trackChanges)
+    public async Task<BookDto> GetBookByIdAsync(int id, bool trackChanges)
     {
-        var book = _manager.Book.GetOneBookById(id, trackChanges);
+        var book =await _manager.Book.GetOneBookByIdAsync(id, trackChanges);
         return _mapper.Map<BookDto>(book);
 
     }
 
-    public (UpdateBookDto updateBookDto, Book book) PartialUpdateBook(int id, bool trackChanges)
+    public async Task<(UpdateBookDto updateBookDto, Book book)> PartialUpdateBookAsync(int id, bool trackChanges)
     {
-        var book = _manager.Book.GetOneBookById(id, trackChanges);
+        var book = await _manager.Book.GetOneBookByIdAsync(id, trackChanges);
         if (book is null)
             throw new BookNotFoundException(id);
         
@@ -71,15 +71,15 @@ public class BookManager : IBookService
         return (updateBookDto, book);
     }
 
-    public void SaveChangesForPatch(UpdateBookDto updateBookDto, Book book)
+    public async Task SaveChangesForPatchAsync(UpdateBookDto updateBookDto,Book book)
     {
         _mapper.Map(updateBookDto, book);
-        _manager.Save();
+        await _manager.SaveAsync();
     }
 
-    public void UpdateBook(int id, UpdateBookDto bookDto, bool trackChanges)
+    public async Task UpdateBookAsync(int id, UpdateBookDto bookDto, bool trackChanges)
     {
-        var existingBook = _manager.Book.GetOneBookById(id, trackChanges);
+        var existingBook = await _manager.Book.GetOneBookByIdAsync(id, trackChanges);
 
         if (existingBook is null)
         {
@@ -91,6 +91,6 @@ public class BookManager : IBookService
         existingBook = _mapper.Map<Book>(bookDto);
 
         _manager.Book.Update(existingBook);
-        _manager.Save();
+        await _manager.SaveAsync();
     }
 }
