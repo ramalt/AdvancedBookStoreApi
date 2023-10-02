@@ -11,8 +11,8 @@ public class RepositoryManager : IRepositoryManager
         _bookRepository = new Lazy<IBookRepository>(() => new BookRepository(_context)); //lazy loading
     }
     public IBookRepository Book => _bookRepository.Value;
-    public void Save()
+    public async Task SaveAsync()
     {
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 }
