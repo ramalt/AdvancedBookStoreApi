@@ -24,7 +24,8 @@ builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureLoggerService();
 builder.Services.AddAutoMapper(typeof(Program));
 
-builder.Services.AddScoped<ValidationFilterAttribute>();
+builder.Services.ConfigureActionFilter();
+
 
 var app = builder.Build();
 

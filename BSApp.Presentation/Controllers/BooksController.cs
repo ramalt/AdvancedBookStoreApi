@@ -9,6 +9,7 @@ namespace BSApp.Presentation.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[ServiceFilter(typeof(LogFilterAttribute))]
 public class BooksController : ControllerBase
 {
     private readonly IServiceManager _manager;

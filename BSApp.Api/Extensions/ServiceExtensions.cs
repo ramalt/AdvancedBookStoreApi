@@ -1,3 +1,4 @@
+using BSApp.Presentation.ActionFilters;
 using BSApp.Repository.Data;
 using BSApp.Service;
 using BSApp.Service.Contracts;
@@ -25,6 +26,12 @@ public static class ServiceExtensions
     public static void ConfigureLoggerService(this IServiceCollection services)
     {
         services.AddSingleton<ILoggerService, LoggerManager>();
+    }
+
+    public static void ConfigureActionFilter(this IServiceCollection services)
+    {
+        services.AddScoped<ValidationFilterAttribute>();
+        services.AddSingleton<LogFilterAttribute>();
     }
 
 }
