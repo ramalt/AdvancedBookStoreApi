@@ -1,6 +1,8 @@
 namespace BSApp.Entities.Dtos;
-public record BookDto
+public record BookDto : BookDtoBase
 {
-    public string Title { get; init; } = null!;
-    public decimal Price { get; init; }
+    public int Id { get; init; }
+    public BookDto(string title, decimal price) : base(title, price)
+    {
+    }
 }

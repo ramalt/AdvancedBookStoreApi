@@ -1,4 +1,3 @@
-using BSApp.Entities.Models;
 using BSApp.Service.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.JsonPatch;
@@ -46,21 +45,28 @@ public class BooksController : ControllerBase
         if (bookDto is null)
             return BadRequest();
 
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(ModelState);
+
         _manager.BookService.UpdateBook(id, bookDto, true);
 
         return NoContent();
     }
 
     [HttpPost]
-    public IActionResult CreateBook([FromBody] Book book)
+    public IActionResult CreateBook([FromBody] CreateBookDto bookDto)
     {
 
-        if (book is null)
+        if (bookDto is null)
             return BadRequest();
 
-        _manager.BookService.CreateBook(book);
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(ModelState);
+        
 
-        return StatusCode(201, book);
+        _manager.BookService.CreateBook(bookDto);
+
+        return StatusCode(201, bookDto);
 
     }
 
@@ -74,14 +80,21 @@ public class BooksController : ControllerBase
     }
 
     [HttpPatch("{id:int}")]
-    public IActionResult PartiallyUpdateBook([FromRoute(Name = "id")] int id, [FromBody] JsonPatchDocument<BookDto> book)
+    public IActionResult PartiallyUpdateBook([FromRoute(Name = "id")] int id, [FromBody] JsonPatchDocument<UpdateBookDto> bookDto)
     {
-        var existingBook = _manager.BookService.GetBookById(id, false);
-        if (existingBook is null)
-            throw new BookNotFoundException(id);
+        if(bookDto is null)
+            return BadRequest();
 
-        book.ApplyTo(existingBook);
-        _manager.BookService.UpdateBook(id, new UpdateBookDto(existingBook.Title, existingBook.Price), true);
+        var entity = _manager.BookService.PartialUpdateBook(id, false);
+
+        bookDto.ApplyTo(entity.updateBookDto, ModelState);
+
+        TryValidateModel(entity.updateBookDto);
+        
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(ModelState);
+        
+        _manager.BookService.SaveChangesForPatch(entity.updateBookDto, entity.book);
 
         return NoContent();
 
