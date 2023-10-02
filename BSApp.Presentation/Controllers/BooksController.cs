@@ -5,6 +5,7 @@ using BSApp.Entities.Exceptions;
 using BSApp.Entities.Dtos;
 using BSApp.Presentation.ActionFilters;
 using BSApp.Entities.RequestFeatures;
+using System.Text.Json;
 
 namespace BSApp.Presentation.Controllers;
 
@@ -36,8 +37,9 @@ public class BooksController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllBooks([FromQuery]BookParameters param)
     {
-        var books = await _manager.BookService.GetAllBooksAsync(param, false);
-        return Ok(books);
+        var pagedBooks = await _manager.BookService.GetAllBooksAsync(param, false);
+        Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedBooks.metaData));
+        return Ok(pagedBooks);
 
     }
 
