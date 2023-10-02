@@ -1,5 +1,4 @@
 using BSApp.Api.Extensions;
-using BSApp.Presentation.ActionFilters;
 using BSApp.Service.Contracts;
 using NLog;
 
@@ -25,7 +24,7 @@ builder.Services.ConfigureLoggerService();
 builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.ConfigureActionFilter();
-
+builder.Services.ConfigureCors();
 
 var app = builder.Build();
 
@@ -39,13 +38,13 @@ if (app.Environment.IsProduction())
 {
     app.UseHsts();
 }
+app.UseCors("CorsPolicy");
 
 var loggerService = app.Services.GetRequiredService<ILoggerService>();
 
 app.ConfigureExceptionHandler(loggerService);
 
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

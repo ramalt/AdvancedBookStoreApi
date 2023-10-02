@@ -34,4 +34,16 @@ public static class ServiceExtensions
         services.AddSingleton<LogFilterAttribute>();
     }
 
+    public static void ConfigureCors(this IServiceCollection services)
+    {
+        services.AddCors(opt => {
+            opt.AddPolicy("CorsPolicy", builder => 
+            builder.AllowAnyOrigin()
+                   .AllowAnyHeader()
+                   .AllowAnyMethod()
+                   .WithExposedHeaders("X-Pagination")
+            );
+        });
+    }
+
 }
