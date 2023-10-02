@@ -2,6 +2,7 @@ using AutoMapper;
 using BSApp.Entities.Dtos;
 using BSApp.Entities.Exceptions;
 using BSApp.Entities.Models;
+using BSApp.Entities.RequestFeatures;
 using BSApp.Repository.Data;
 using BSApp.Service.Contracts;
 
@@ -37,10 +38,10 @@ public class BookManager : IBookService
 
     }
 
-    public async Task<IEnumerable<BookDto>> GetAllBooksAsync(bool trackChanges)
+    public async Task<IEnumerable<BookDto>> GetAllBooksAsync(BookParameters param,bool trackChanges)
     {
 
-        var books = await _manager.Book.GetAllBooksAsync(trackChanges);
+        var books = await _manager.Book.GetAllBooksAsync(param, trackChanges);
 
         return _mapper.Map<IEnumerable<BookDto>>(books);
     }

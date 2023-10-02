@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using BSApp.Entities.Exceptions;
 using BSApp.Entities.Dtos;
 using BSApp.Presentation.ActionFilters;
+using BSApp.Entities.RequestFeatures;
 
 namespace BSApp.Presentation.Controllers;
 
@@ -33,9 +34,9 @@ public class BooksController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllBooks()
+    public async Task<IActionResult> GetAllBooks([FromQuery]BookParameters param)
     {
-        var books = await _manager.BookService.GetAllBooksAsync(false);
+        var books = await _manager.BookService.GetAllBooksAsync(param, false);
         return Ok(books);
 
     }

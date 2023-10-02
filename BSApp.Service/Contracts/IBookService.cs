@@ -1,12 +1,13 @@
 using System.Runtime.CompilerServices;
 using BSApp.Entities.Dtos;
 using BSApp.Entities.Models;
+using BSApp.Entities.RequestFeatures;
 
 namespace BSApp.Service.Contracts;
 
 public interface IBookService
 {
-    Task<IEnumerable<BookDto>> GetAllBooksAsync(bool trackChanges);
+    Task<IEnumerable<BookDto>> GetAllBooksAsync(BookParameters param, bool trackChanges);
     Task<BookDto> GetBookByIdAsync(int id, bool trackChanges);
     Task<BookDto> CreateBookAsync(CreateBookDto bookDto);
     Task UpdateBookAsync(int id, UpdateBookDto bookDto, bool trackChanges);
