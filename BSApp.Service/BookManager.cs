@@ -31,15 +31,7 @@ public class BookManager : IBookService
 
     public async Task DeleteBookAsync(int id, bool trackChanges)
     {
-        var book = await _manager.Book.GetOneBookByIdAsync(id, trackChanges);
-        if (book is null)
-        {
-            var msg = $"Book not found with id : {id}";
-            _logger.LogInfo(msg);
-            throw new Exception(msg);
-        }
-
-
+        var book = await GetBookOneBookAndCheckExist(id, trackChanges);
         _manager.Book.Delete(book);
         await _manager.SaveAsync();
 
@@ -62,10 +54,7 @@ public class BookManager : IBookService
 
     public async Task<(UpdateBookDto updateBookDto, Book book)> PartialUpdateBookAsync(int id, bool trackChanges)
     {
-        var book = await _manager.Book.GetOneBookByIdAsync(id, trackChanges);
-        if (book is null)
-            throw new BookNotFoundException(id);
-        
+        var book = await GetBookOneBookAndCheckExist(id, trackChanges);
         var updateBookDto = _mapper.Map<UpdateBookDto>(book);
 
         return (updateBookDto, book);
@@ -79,18 +68,16 @@ public class BookManager : IBookService
 
     public async Task UpdateBookAsync(int id, UpdateBookDto bookDto, bool trackChanges)
     {
-        var existingBook = await _manager.Book.GetOneBookByIdAsync(id, trackChanges);
-
-        if (existingBook is null)
-        {
-            var msg = $"Book not found with id : {id}";
-            _logger.LogInfo(msg);
-            throw new BookNotFoundException(id);
-        }
-
-        existingBook = _mapper.Map<Book>(bookDto);
-
-        _manager.Book.Update(existingBook);
+        var book = await GetBookOneBookAndCheckExist(id, trackChanges);
+        book = _mapper.Map<Book>(bookDto);
+        _manager.Book.Update(book);
         await _manager.SaveAsync();
+    }
+
+    private async Task<Book> GetBookOneBookAndCheckExist(int id,bool trackChanges){
+        var book = await _manager.Book.GetOneBookByIdAsync(id, trackChanges);
+        if(book is null)
+            throw new BookNotFoundException(id);
+        return book;
     }
 }
