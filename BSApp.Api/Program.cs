@@ -1,4 +1,5 @@
 using BSApp.Api.Extensions;
+using BSApp.Presentation.ActionFilters;
 using BSApp.Service.Contracts;
 using NLog;
 
@@ -22,6 +23,8 @@ builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureLoggerService();
 builder.Services.AddAutoMapper(typeof(Program));
+
+builder.Services.AddScoped<ValidationFilterAttribute>();
 
 var app = builder.Build();
 
