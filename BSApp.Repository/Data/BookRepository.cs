@@ -16,7 +16,7 @@ public class BookRepository : RepositoryBase<Book>, IBookRepository
     public void UpdateOneBook(Book book) => Update(book);
     public async Task<PagedList<Book>> GetAllBooksAsync(BookParameters bookParams, bool trackChanges) 
     {  
-        var books = FindByCondition(b => ((b.Price >= bookParams.MinPrice) && (b.Price <= bookParams.MaxPrice)), trackChanges).Search(bookParams).ToList();
+        var books = FindByCondition(b => ((b.Price >= bookParams.MinPrice) && (b.Price <= bookParams.MaxPrice)), trackChanges).Search(bookParams).SortBy(bookParams.Sort).ToList();
 
         return PagedList<Book>.ToPagedList(books, bookParams.PageNumber, bookParams.PageSize);
     }
