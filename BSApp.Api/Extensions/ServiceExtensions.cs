@@ -1,3 +1,4 @@
+using BSApp.Entities.Dtos;
 using BSApp.Presentation.ActionFilters;
 using BSApp.Repository.Data;
 using BSApp.Service;
@@ -46,4 +47,8 @@ public static class ServiceExtensions
         });
     }
 
+    public static void ConfigureDataShaper(this IServiceCollection services)
+    {
+        services.AddScoped<IDataShaper<BookDto>, DataShaper<BookDto>>();
+    }
 }

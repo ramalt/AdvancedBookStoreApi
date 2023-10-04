@@ -1,3 +1,4 @@
+using System.Dynamic;
 using AutoMapper;
 using BSApp.Entities.Dtos;
 using BSApp.Entities.Exceptions;
@@ -13,12 +14,14 @@ public class BookManager : IBookService
     private readonly IRepositoryManager _manager;
     private readonly ILoggerService _logger;
     private readonly IMapper _mapper;
+    private readonly IDataShaper<BookDto> _shaper;
 
-    public BookManager(IRepositoryManager manager, ILoggerService logger, IMapper mapper)
+    public BookManager(IRepositoryManager manager, ILoggerService logger, IMapper mapper, IDataShaper<BookDto> shaper)
     {
         _manager = manager;
         _logger = logger;
         _mapper = mapper;
+        _shaper = shaper;
     }
 
     public async Task<BookDto> CreateBookAsync(CreateBookDto bookDto)
@@ -38,7 +41,7 @@ public class BookManager : IBookService
 
     }
 
-    public async Task<(IEnumerable<BookDto> books, MetaData metaData)> GetAllBooksAsync(BookParameters param,bool trackChanges)
+    public async Task<(IEnumerable<ExpandoObject> books, MetaData metaData)> GetAllBooksAsync(BookParameters param,bool trackChanges)
     {
         if (!param.ValidPriceRange)
             throw new PriceOutOfRangeBadRequest();
@@ -46,7 +49,9 @@ public class BookManager : IBookService
         var books = await _manager.Book.GetAllBooksAsync(param,trackChanges);
 
         var booksDto = _mapper.Map<IEnumerable<BookDto>>(books);
-        return (booksDto, books.MetaData);
+
+        var shaped = _shaper.ShapeData(booksDto, param.Fields);
+        return (shaped, books.MetaData);
     }
 
     public async Task<BookDto> GetBookByIdAsync(int id, bool trackChanges)

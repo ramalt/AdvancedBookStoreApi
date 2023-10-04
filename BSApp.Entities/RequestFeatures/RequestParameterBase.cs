@@ -2,7 +2,9 @@ namespace BSApp.Entities.RequestFeatures;
 
 public abstract class RequestParameterBase
 {
-    public int PageNumber { get; set; }    
+    public int PageNumber { get; set; } = 1;   
+    public string? Sort { get; set; }
+    public string? Fields { get; set; }
     private int _pageSize;
     public int PageSize
     {

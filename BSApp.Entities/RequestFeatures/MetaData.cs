@@ -1,5 +1,6 @@
 namespace BSApp.Entities.RequestFeatures;
 
+//pagination info for header
 public class MetaData
 {
     public int CurrentPage { get; set; }
