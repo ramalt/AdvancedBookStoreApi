@@ -77,4 +77,11 @@ public static class ServiceExtensions
         services.AddResponseCaching();
     }
 
+    public static void ConfigureHttpCacheHeaders(this IServiceCollection services)
+    {
+        services.AddHttpCacheHeaders(validationOpt => 
+        {
+            validationOpt.MustRevalidate = true; //not: local resource can be used if it's younger than the provided "max-age" , otherwise it must revalidate.
+        });
+    }
 }

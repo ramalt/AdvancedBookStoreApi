@@ -14,7 +14,7 @@ namespace BSApp.Presentation.Controllers;
 [ApiController]
 [Route("api/v{v:apiversion}/books")]
 [ServiceFilter(typeof(LogFilterAttribute))]
-[ResponseCache(CacheProfileName = "5min")]
+// [ResponseCache(CacheProfileName = "5min")]
 public class BooksController : ControllerBase
 {
     private readonly IServiceManager _manager;

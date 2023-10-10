@@ -30,7 +30,8 @@ builder.Services.ConfigureCors();
 builder.Services.ConfigureDataShaper();
 builder.Services.ConfigureVersioning();
 builder.Services.ConfigureSwagger();
-builder.Services.ConfigureResponseCaching();
+// builder.Services.ConfigureResponseCaching();
+builder.Services.ConfigureHttpCacheHeaders();
 
 var app = builder.Build();
 
@@ -50,7 +51,8 @@ if (app.Environment.IsProduction())
 }
 app.UseCors("CorsPolicy");
 
-app.UseResponseCaching();
+// app.UseResponseCaching();
+app.UseHttpCacheHeaders();
 
 var loggerService = app.Services.GetRequiredService<ILoggerService>();
 
