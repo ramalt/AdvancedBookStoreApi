@@ -8,6 +8,7 @@ namespace BSApp.Service.Contracts;
 public interface IBookService
 {
     Task<(IEnumerable<ExpandoObject> books, MetaData metaData)> GetAllBooksAsync(BookParameters param, bool trackChanges);
+    Task<List<BookDto>> GetAllBooksAsync(bool trackChanges);
     Task<BookDto> GetBookByIdAsync(int id, bool trackChanges);
     Task<BookDto> CreateBookAsync(CreateBookDto bookDto);
     Task UpdateBookAsync(int id, UpdateBookDto bookDto, bool trackChanges);

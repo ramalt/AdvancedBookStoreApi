@@ -9,6 +9,7 @@ using System.Text.Json;
 
 namespace BSApp.Presentation.Controllers;
 
+[ApiVersion("1.0")]
 [ApiController]
 [Route("api/[controller]")]
 [ServiceFilter(typeof(LogFilterAttribute))]

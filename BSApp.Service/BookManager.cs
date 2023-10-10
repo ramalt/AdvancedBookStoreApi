@@ -54,6 +54,14 @@ public class BookManager : IBookService
         return (shaped, books.MetaData);
     }
 
+    public async Task<List<BookDto>> GetAllBooksAsync(bool trackChanges)
+    {
+        var books = await _manager.Book.GetAllBooksAsync(trackChanges);
+
+        return _mapper.Map<List<BookDto>>(books);
+
+    }
+
     public async Task<BookDto> GetBookByIdAsync(int id, bool trackChanges)
     {
         var book =await _manager.Book.GetOneBookByIdAsync(id, trackChanges);
