@@ -1,8 +1,11 @@
+using System.Data;
 using BSApp.Entities.Dtos;
 using BSApp.Presentation.ActionFilters;
 using BSApp.Repository.Data;
 using BSApp.Service;
 using BSApp.Service.Contracts;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 
 namespace BSApp.Api.Extensions;
@@ -51,4 +54,15 @@ public static class ServiceExtensions
     {
         services.AddScoped<IDataShaper<BookDto>, DataShaper<BookDto>>();
     }
+
+    public static void AddCustomMediaTypes(this IServiceCollection services)
+    {
+        services.Configure<MvcOptions>(config => 
+        {
+            var systemTextJsonOutputFormatter = config.OutputFormatters.OfType<SystemTextJsonOutputFormatter>()?.FirstOrDefault();
+            systemTextJsonOutputFormatter?.SupportedMediaTypes.Add("application/vnd.customtype.root+json");
+            //
+        });
+    }
+
 }
