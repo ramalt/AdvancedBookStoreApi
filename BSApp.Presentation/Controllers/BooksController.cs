@@ -38,6 +38,7 @@ public class BooksController : ControllerBase
 
     [HttpHead]
     [HttpGet]
+    [ResponseCache(Duration = 60)]
     public async Task<IActionResult> GetAllBooks([FromQuery]BookParameters param)
     {
         var pagedBooks = await _manager.BookService.GetAllBooksAsync(param, false);

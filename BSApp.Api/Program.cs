@@ -28,6 +28,7 @@ builder.Services.ConfigureCors();
 builder.Services.ConfigureDataShaper();
 builder.Services.ConfigureVersioning();
 builder.Services.ConfigureSwagger();
+builder.Services.ConfigureResponseCaching();
 
 var app = builder.Build();
 
@@ -46,6 +47,8 @@ if (app.Environment.IsProduction())
     app.UseHsts();
 }
 app.UseCors("CorsPolicy");
+
+app.UseResponseCaching();
 
 var loggerService = app.Services.GetRequiredService<ILoggerService>();
 
