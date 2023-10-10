@@ -10,6 +10,7 @@ using System.Text.Json;
 namespace BSApp.Presentation.Controllers;
 
 [ApiVersion("1.0")]
+[ApiExplorerSettings(GroupName = "v1")]
 [ApiController]
 [Route("api/v{v:apiversion}/books")]
 [ServiceFilter(typeof(LogFilterAttribute))]

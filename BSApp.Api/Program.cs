@@ -27,13 +27,18 @@ builder.Services.ConfigureActionFilter();
 builder.Services.ConfigureCors();
 builder.Services.ConfigureDataShaper();
 builder.Services.ConfigureVersioning();
+builder.Services.ConfigureSwagger();
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(s => 
+    {
+        s.SwaggerEndpoint("v1/swagger.json","Book Store API Version 1.0");
+        s.SwaggerEndpoint("v2/swagger.json","Book Store API Version 2.0");
+    });
 }
 
 if (app.Environment.IsProduction())

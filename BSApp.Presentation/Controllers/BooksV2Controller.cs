@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BSApp.Presentation.Controllers;
 
 [ApiVersion("2.0")]
+[ApiExplorerSettings(GroupName = "v2")]
 [ApiController]
 [Route("api/v{v:apiversion}/books")]
 public class BooksV2Controller : ControllerBase

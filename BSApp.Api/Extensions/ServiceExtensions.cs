@@ -5,6 +5,7 @@ using BSApp.Service;
 using BSApp.Service.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 namespace BSApp.Api.Extensions;
 
@@ -62,4 +63,13 @@ public static class ServiceExtensions
             opt.DefaultApiVersion = new ApiVersion(1,0);
         });
     }
+
+    public static void ConfigureSwagger(this IServiceCollection services)
+    {
+        services.AddSwaggerGen(s => {
+            s.SwaggerDoc("v1", new OpenApiInfo {Title = "Book Store API", Version = "v1"});
+            s.SwaggerDoc("v2", new OpenApiInfo {Title = "Book Store API", Version = "v2"});
+        });
+    }
+
 }
