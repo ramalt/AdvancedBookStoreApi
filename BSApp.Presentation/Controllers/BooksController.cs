@@ -34,6 +34,7 @@ public class BooksController : ControllerBase
 
     }
 
+    [HttpHead]
     [HttpGet]
     public async Task<IActionResult> GetAllBooks([FromQuery]BookParameters param)
     {
@@ -93,5 +94,11 @@ public class BooksController : ControllerBase
 
     }
 
+    [HttpOptions]
+    public IActionResult GetBookOptions()
+    {
+        Response.Headers.Add("allow", "POST,GET,PUT,DELETE,PATHC,HEAD,OPTIONS");
+        return Ok();
+    }
 
 }
