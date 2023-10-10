@@ -11,7 +11,7 @@ namespace BSApp.Presentation.Controllers;
 
 [ApiVersion("1.0")]
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/v{v:apiversion}/books")]
 [ServiceFilter(typeof(LogFilterAttribute))]
 public class BooksController : ControllerBase
 {
