@@ -3,6 +3,7 @@ using BSApp.Presentation.ActionFilters;
 using BSApp.Repository.Data;
 using BSApp.Service;
 using BSApp.Service.Contracts;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace BSApp.Api.Extensions;
@@ -50,5 +51,15 @@ public static class ServiceExtensions
     public static void ConfigureDataShaper(this IServiceCollection services)
     {
         services.AddScoped<IDataShaper<BookDto>, DataShaper<BookDto>>();
+    }
+
+    public static void ConfigureVersioning(this IServiceCollection services)
+    {
+        services.AddApiVersioning(opt => 
+        {
+            opt.ReportApiVersions = true; //header api version
+            opt.AssumeDefaultVersionWhenUnspecified = true; // set deafult version
+            opt.DefaultApiVersion = new ApiVersion(1,0);
+        });
     }
 }
