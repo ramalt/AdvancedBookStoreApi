@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using BSApp.Api.Extensions;
 using BSApp.Service.Contracts;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,11 @@ builder.Services.ConfigureSwagger();
 // builder.Services.ConfigureResponseCaching();
 builder.Services.ConfigureHttpCacheHeaders();
 
+//rate limiting
+builder.Services.AddMemoryCache();
+builder.Services.ConfigureRateLimiting();
+builder.Services.AddHttpContextAccessor();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -49,6 +55,9 @@ if (app.Environment.IsProduction())
 {
     app.UseHsts();
 }
+
+app.UseIpRateLimiting();
+
 app.UseCors("CorsPolicy");
 
 // app.UseResponseCaching();

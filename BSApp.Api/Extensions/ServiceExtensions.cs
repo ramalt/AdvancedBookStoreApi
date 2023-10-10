@@ -1,3 +1,5 @@
+using System.Net;
+using AspNetCoreRateLimit;
 using BSApp.Entities.Dtos;
 using BSApp.Presentation.ActionFilters;
 using BSApp.Repository.Data;
@@ -83,5 +85,24 @@ public static class ServiceExtensions
         {
             validationOpt.MustRevalidate = true; //not: local resource can be used if it's younger than the provided "max-age" , otherwise it must revalidate.
         });
+    }
+
+    public static void ConfigureRateLimiting(this IServiceCollection services)
+    {
+        
+        List<RateLimitRule> rateLimitRules = new()
+        {
+            new RateLimitRule{ Endpoint = "*", Limit = 3, Period = "1m"}
+        };
+        
+        services.Configure<IpRateLimitOptions>(opt => 
+        {
+            opt.GeneralRules = rateLimitRules;
+        });
+        services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+        services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+        services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+        services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+
     }
 }
