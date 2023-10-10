@@ -1,5 +1,6 @@
 using BSApp.Api.Extensions;
 using BSApp.Service.Contracts;
+using Microsoft.AspNetCore.Mvc;
 using NLog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,7 @@ builder.Services.AddControllers(options =>
                 {
                     options.RespectBrowserAcceptHeader = true;
                     options.ReturnHttpNotAcceptable = true;
+                    options.CacheProfiles.Add("5min", new CacheProfile {Duration = 300});
                 })
                 // .AddXmlDataContractSerializerFormatters()
                 .AddApplicationPart(typeof(BSApp.Presentation.AssemblyReference).Assembly)

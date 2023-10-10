@@ -14,6 +14,7 @@ namespace BSApp.Presentation.Controllers;
 [ApiController]
 [Route("api/v{v:apiversion}/books")]
 [ServiceFilter(typeof(LogFilterAttribute))]
+[ResponseCache(CacheProfileName = "5min")]
 public class BooksController : ControllerBase
 {
     private readonly IServiceManager _manager;
@@ -38,7 +39,6 @@ public class BooksController : ControllerBase
 
     [HttpHead]
     [HttpGet]
-    [ResponseCache(Duration = 60)]
     public async Task<IActionResult> GetAllBooks([FromQuery]BookParameters param)
     {
         var pagedBooks = await _manager.BookService.GetAllBooksAsync(param, false);
