@@ -6,6 +6,7 @@ using BSApp.Entities.Dtos;
 using BSApp.Presentation.ActionFilters;
 using BSApp.Entities.RequestFeatures;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BSApp.Presentation.Controllers;
 
@@ -14,6 +15,7 @@ namespace BSApp.Presentation.Controllers;
 [ApiController]
 [Route("api/v{v:apiversion}/books")]
 [ServiceFilter(typeof(LogFilterAttribute))]
+[Authorize]
 // [ResponseCache(CacheProfileName = "5min")]
 public class BooksController : ControllerBase
 {
