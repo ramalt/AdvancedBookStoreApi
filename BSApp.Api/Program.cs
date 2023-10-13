@@ -33,7 +33,7 @@ builder.Services.ConfigureVersioning();
 builder.Services.ConfigureSwagger();
 
 //identity config
-builder.Services.AddAuthentication();
+builder.Services.ConfigureJWT(builder.Configuration);
 builder.Services.ConfigureIdentity();
 
 // builder.Services.ConfigureResponseCaching();
