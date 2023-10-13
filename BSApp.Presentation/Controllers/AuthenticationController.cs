@@ -1,3 +1,4 @@
+using BSApp.Entities.Dtos;
 using BSApp.Entities.Dtos.User;
 using BSApp.Presentation.ActionFilters;
 using BSApp.Service.Contracts;
@@ -18,7 +19,8 @@ public class AuthenticationController : ControllerBase
 
     [HttpPost]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
-    public async Task<IActionResult> RegisterUser([FromBody] RegisterUserDto registerUserDto){
+    public async Task<IActionResult> RegisterUser([FromBody] RegisterUserDto registerUserDto)
+    {
         var result = await _service.AuthenticationService.RegisterUser(registerUserDto);
 
         if (!result.Succeeded)
@@ -33,4 +35,21 @@ public class AuthenticationController : ControllerBase
         return StatusCode(201);
 
     }
+
+    [HttpPost("login")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task<IActionResult> Login([FromBody] AuthenticateUserDto authenticateUserDto)
+    {
+        var isUserValid = await _service.AuthenticationService.ValidateUser(authenticateUserDto);
+        if(isUserValid)
+        {
+            var token = await  _service.AuthenticationService.CreateToken();
+            return Ok(new{
+                Token = token
+            });
+        }
+
+        return Unauthorized();
+    }
+
 }
