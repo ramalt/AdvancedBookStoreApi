@@ -7,6 +7,7 @@ using BSApp.Presentation.ActionFilters;
 using BSApp.Entities.RequestFeatures;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace BSApp.Presentation.Controllers;
 
@@ -15,7 +16,7 @@ namespace BSApp.Presentation.Controllers;
 [ApiController]
 [Route("api/v{v:apiversion}/books")]
 [ServiceFilter(typeof(LogFilterAttribute))]
-[Authorize]
+// [Authorize]
 // [ResponseCache(CacheProfileName = "5min")]
 public class BooksController : ControllerBase
 {
@@ -26,6 +27,7 @@ public class BooksController : ControllerBase
         _manager = manager;
     }
 
+    [Authorize(Roles = "DefaultAppUser, Editor, Admin")]
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetOneBook([FromRoute(Name = "id")] int id)
     {
@@ -39,6 +41,7 @@ public class BooksController : ControllerBase
 
     }
 
+    [Authorize(Roles = "DefaultAppUser, Editor, Admin")]
     [HttpHead]
     [HttpGet]
     public async Task<IActionResult> GetAllBooks([FromQuery]BookParameters param)
@@ -49,6 +52,7 @@ public class BooksController : ControllerBase
 
     }
 
+    [Authorize(Roles = "Editor, Admin")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateBook([FromRoute(Name = "id")] int id, [FromBody] UpdateBookDto bookDto)
@@ -58,6 +62,7 @@ public class BooksController : ControllerBase
         return NoContent();
     }
 
+    [Authorize(Roles = "Editor, Admin")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     [HttpPost]
     public async Task<IActionResult> CreateBook([FromBody] CreateBookDto bookDto)
@@ -69,6 +74,7 @@ public class BooksController : ControllerBase
 
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteBook([FromRoute(Name = "id")] int id)
     {
@@ -78,6 +84,7 @@ public class BooksController : ControllerBase
 
     }
 
+    [Authorize(Roles = "Editor, Admin")]
     [HttpPatch("{id:int}")]
     public async Task<IActionResult> PartiallyUpdateBook([FromRoute(Name = "id")] int id, [FromBody] JsonPatchDocument<UpdateBookDto> bookDto)
     {
@@ -99,6 +106,7 @@ public class BooksController : ControllerBase
 
     }
 
+    [Authorize]
     [HttpOptions]
     public IActionResult GetBookOptions()
     {
