@@ -1,4 +1,5 @@
 using System.Net;
+using System.Text;
 using AspNetCoreRateLimit;
 using BSApp.Entities.Dtos;
 using BSApp.Entities.Models;
@@ -6,9 +7,11 @@ using BSApp.Presentation.ActionFilters;
 using BSApp.Repository.Data;
 using BSApp.Service;
 using BSApp.Service.Contracts;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace BSApp.Api.Extensions;
@@ -124,4 +127,30 @@ public static class ServiceExtensions
             .AddDefaultTokenProviders(); //for JWT 
 
     }
+
+    public static void ConfigureJWT(this IServiceCollection services, IConfiguration config)
+    {
+        var jwtSettings = config.GetSection("JwtSettings");
+        services.AddAuthentication(opt => 
+        {
+            opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(opt => {
+            opt.TokenValidationParameters = new TokenValidationParameters{
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = jwtSettings["issuer"],
+                ValidAudience = jwtSettings["audience"],
+                IssuerSigningKey =new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["secret"]))
+            };
+        });
+    }
+
+
+
+
+
+
 }
