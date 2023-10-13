@@ -15,6 +15,7 @@ public class ApplicationContext : IdentityDbContext<User>
     {
         base.OnModelCreating(builder);
         builder.ApplyConfiguration(new BookConfig());
+        builder.ApplyConfiguration(new RoleConfig());
 
     }
 
