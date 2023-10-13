@@ -1,10 +1,12 @@
 using System.Net;
 using AspNetCoreRateLimit;
 using BSApp.Entities.Dtos;
+using BSApp.Entities.Models;
 using BSApp.Presentation.ActionFilters;
 using BSApp.Repository.Data;
 using BSApp.Service;
 using BSApp.Service.Contracts;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -103,6 +105,23 @@ public static class ServiceExtensions
         services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
         services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
         services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+
+    }
+
+    public static void ConfigureIdentity(this IServiceCollection services)
+    {
+        var builder = services.AddIdentity<User, IdentityRole>(opt => 
+        {
+            opt.Password.RequireDigit = true;
+            opt.Password.RequireLowercase = true;
+            opt.Password.RequireUppercase = true;
+            opt.Password.RequiredLength = 6;
+            opt.Password.RequireNonAlphanumeric = true;
+
+            opt.User.RequireUniqueEmail = true;
+        })
+            .AddEntityFrameworkStores<ApplicationContext>()
+            .AddDefaultTokenProviders(); //for JWT 
 
     }
 }

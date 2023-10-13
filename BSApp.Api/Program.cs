@@ -31,6 +31,11 @@ builder.Services.ConfigureCors();
 builder.Services.ConfigureDataShaper();
 builder.Services.ConfigureVersioning();
 builder.Services.ConfigureSwagger();
+
+//identity config
+builder.Services.AddAuthentication();
+builder.Services.ConfigureIdentity();
+
 // builder.Services.ConfigureResponseCaching();
 builder.Services.ConfigureHttpCacheHeaders();
 
@@ -67,7 +72,9 @@ var loggerService = app.Services.GetRequiredService<ILoggerService>();
 
 app.ConfigureExceptionHandler(loggerService);
 
+app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();
