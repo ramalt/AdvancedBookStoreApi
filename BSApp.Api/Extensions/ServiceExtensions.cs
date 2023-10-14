@@ -76,7 +76,12 @@ public static class ServiceExtensions
     {
         services.AddSwaggerGen(s =>
         {
-            s.SwaggerDoc("v1", new OpenApiInfo { Title = "Book Store API", Version = "v1" });
+            s.SwaggerDoc("v1", new OpenApiInfo { Title = "Book Store API", Version = "v1", Description = "Online Book Store API", TermsOfService = new Uri("https://ramalt.com.tr/"), Contact = new OpenApiContact
+            {
+                Name = "Ramazan ALTUNTEPE",
+                Email = "ramazanalltuntepe@gmail.com",
+                Url = new Uri("https://ramalt.com.tr")
+            } });
             s.SwaggerDoc("v2", new OpenApiInfo { Title = "Book Store API", Version = "v2" });
 
             s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
