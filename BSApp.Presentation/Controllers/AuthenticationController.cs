@@ -43,13 +43,21 @@ public class AuthenticationController : ControllerBase
         var isUserValid = await _service.AuthenticationService.ValidateUser(authenticateUserDto);
         if(isUserValid)
         {
-            var token = await  _service.AuthenticationService.CreateToken();
-            return Ok(new{
-                Token = token
-            });
+            var token = await  _service.AuthenticationService.CreateToken(true);
+
+            return Ok(token);
         }
 
         return Unauthorized();
+    }
+
+    [HttpPost("refresh")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task<IActionResult> RefreshToken([FromBody] TokenDto tokenDto)
+    {
+        var token = await _service.AuthenticationService.RefreshToken(tokenDto);
+
+        return Ok(token);
     }
 
 }
