@@ -46,8 +46,9 @@ public static class ServiceExtensions
 
     public static void ConfigureCors(this IServiceCollection services)
     {
-        services.AddCors(opt => {
-            opt.AddPolicy("CorsPolicy", builder => 
+        services.AddCors(opt =>
+        {
+            opt.AddPolicy("CorsPolicy", builder =>
             builder.AllowAnyOrigin()
                    .AllowAnyHeader()
                    .AllowAnyMethod()
@@ -63,19 +64,44 @@ public static class ServiceExtensions
 
     public static void ConfigureVersioning(this IServiceCollection services)
     {
-        services.AddApiVersioning(opt => 
+        services.AddApiVersioning(opt =>
         {
             opt.ReportApiVersions = true; //header api version
             opt.AssumeDefaultVersionWhenUnspecified = true; // set deafult version
-            opt.DefaultApiVersion = new ApiVersion(1,0);
+            opt.DefaultApiVersion = new ApiVersion(1, 0);
         });
     }
 
     public static void ConfigureSwagger(this IServiceCollection services)
     {
-        services.AddSwaggerGen(s => {
-            s.SwaggerDoc("v1", new OpenApiInfo {Title = "Book Store API", Version = "v1"});
-            s.SwaggerDoc("v2", new OpenApiInfo {Title = "Book Store API", Version = "v2"});
+        services.AddSwaggerGen(s =>
+        {
+            s.SwaggerDoc("v1", new OpenApiInfo { Title = "Book Store API", Version = "v1" });
+            s.SwaggerDoc("v2", new OpenApiInfo { Title = "Book Store API", Version = "v2" });
+
+            s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+            {
+                In = ParameterLocation.Header,
+                Description = "Lütfen bu kısıma JWT Bearer token ekleyin.",
+                Name = "Authorization",
+                Type = SecuritySchemeType.ApiKey,
+                Scheme = "Bearer",
+            });
+
+            s.AddSecurityRequirement(new OpenApiSecurityRequirement()
+            {
+                {
+                    new OpenApiSecurityScheme{
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        },
+                        Name = "Bearer",
+                    },
+                    new List<string>()
+                },
+            });
         });
     }
 
@@ -86,7 +112,7 @@ public static class ServiceExtensions
 
     public static void ConfigureHttpCacheHeaders(this IServiceCollection services)
     {
-        services.AddHttpCacheHeaders(validationOpt => 
+        services.AddHttpCacheHeaders(validationOpt =>
         {
             validationOpt.MustRevalidate = true; //not: local resource can be used if it's younger than the provided "max-age" , otherwise it must revalidate.
         });
@@ -94,13 +120,13 @@ public static class ServiceExtensions
 
     public static void ConfigureRateLimiting(this IServiceCollection services)
     {
-        
+
         List<RateLimitRule> rateLimitRules = new()
         {
             new RateLimitRule{ Endpoint = "*", Limit = 3, Period = "1m"}
         };
-        
-        services.Configure<IpRateLimitOptions>(opt => 
+
+        services.Configure<IpRateLimitOptions>(opt =>
         {
             opt.GeneralRules = rateLimitRules;
         });
@@ -113,7 +139,7 @@ public static class ServiceExtensions
 
     public static void ConfigureIdentity(this IServiceCollection services)
     {
-        var builder = services.AddIdentity<User, IdentityRole>(opt => 
+        var builder = services.AddIdentity<User, IdentityRole>(opt =>
         {
             opt.Password.RequireDigit = true;
             opt.Password.RequireLowercase = true;
@@ -131,19 +157,21 @@ public static class ServiceExtensions
     public static void ConfigureJWT(this IServiceCollection services, IConfiguration config)
     {
         var jwtSettings = config.GetSection("JwtSettings");
-        services.AddAuthentication(opt => 
+        services.AddAuthentication(opt =>
         {
             opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        }).AddJwtBearer(opt => {
-            opt.TokenValidationParameters = new TokenValidationParameters{
+        }).AddJwtBearer(opt =>
+        {
+            opt.TokenValidationParameters = new TokenValidationParameters
+            {
                 ValidateIssuer = true,
                 ValidateAudience = true,
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
                 ValidIssuer = jwtSettings["issuer"],
                 ValidAudience = jwtSettings["audience"],
-                IssuerSigningKey =new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["secret"]))
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["secret"]))
             };
         });
     }

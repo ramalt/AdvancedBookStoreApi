@@ -53,6 +53,7 @@ if (app.Environment.IsDevelopment())
     {
         s.SwaggerEndpoint("v1/swagger.json","Book Store API Version 1.0");
         s.SwaggerEndpoint("v2/swagger.json","Book Store API Version 2.0");
+
     });
 }
 
